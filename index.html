@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Cut Room — Premium Barbershop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --bg:#0d120e;--bg2:#121a13;--bg3:#182019;--bg4:#1e2a1f;
+      --green:#2d5a27;--green2:#3a7033;
+      --gold:#c9a84c;--gold2:#e0be6e;
+      --cream:#f5f0e8;--cream2:#e8e0d0;
+      --text:#f0ece4;--muted:#7a7260;--subtle:#2e3a2f;
+      --border:rgba(201,168,76,0.15);--border-soft:rgba(240,236,228,0.07);
+      --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',sans-serif;
+    }
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;overflow-x:hidden;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.8rem 5rem;transition:all 0.4s;}
+    nav.scrolled{background:rgba(13,18,14,0.97);padding:1.2rem 5rem;border-bottom:1px solid var(--border);backdrop-filter:blur(16px);}
+    .nav-logo{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:0.05em;}
+    .nav-logo span{color:var(--gold);font-style:italic;}
+    .nav-links{display:flex;gap:2.5rem;list-style:none;}
+    .nav-links a{font-size:0.75rem;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.3s;}
+    .nav-links a:hover{color:var(--text);}
+    .nav-cta{font-size:0.72rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:0.7rem 1.6rem;text-decoration:none;transition:background 0.3s;}
+    .nav-cta:hover{background:var(--gold2);}
+
+    #home{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(to right,rgba(13,18,14,0.96) 50%,rgba(13,18,14,0.4) 100%),url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&auto=format&fit=crop') right center/cover no-repeat;}
+    .hero-content{position:relative;z-index:2;padding:0 5rem;max-width:680px;}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:0.8rem;font-size:0.68rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;}
+    .hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--gold);}
+    .hero-title{font-family:var(--serif);font-size:clamp(3.5rem,8vw,7rem);font-weight:700;line-height:0.95;letter-spacing:-0.01em;color:var(--text);margin-bottom:2rem;}
+    .hero-title em{font-style:italic;color:var(--gold);}
+    .hero-sub{font-size:0.95rem;color:var(--muted);max-width:420px;line-height:1.85;margin-bottom:3rem;}
+    .hero-actions{display:flex;gap:1.2rem;flex-wrap:wrap;}
+    .btn-gold{font-size:0.75rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:1rem 2.6rem;text-decoration:none;transition:background 0.3s;}
+    .btn-gold:hover{background:var(--gold2);}
+    .btn-ghost{font-size:0.75rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border-soft);padding:1rem 2.6rem;text-decoration:none;transition:all 0.3s;}
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+    .hero-stats{position:absolute;bottom:0;right:0;display:grid;grid-template-columns:repeat(3,1fr);}
+    .hstat{padding:1.8rem 2.2rem;border-top:1px solid var(--border);border-left:1px solid var(--border);text-align:center;background:rgba(13,18,14,0.85);}
+    .hstat-num{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--gold);line-height:1;}
+    .hstat-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
+
+    .ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0.9rem 0;overflow:hidden;background:var(--bg2);}
+    .ticker-track{display:flex;gap:3rem;animation:ticker 22s linear infinite;white-space:nowrap;}
+    .ticker-item{display:flex;align-items:center;gap:1rem;font-family:var(--serif);font-size:0.85rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);font-style:italic;}
+    .ticker-dot{color:var(--gold);font-style:normal;}
+
+    section{padding:8rem 5rem;}
+    .label{font-size:0.65rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+    .heading{font-family:var(--serif);font-size:clamp(2.2rem,5vw,4rem);font-weight:700;line-height:1.0;letter-spacing:-0.01em;color:var(--text);}
+    .heading em{font-style:italic;color:var(--gold);}
+    .rule{width:36px;height:1px;background:var(--gold);margin:1.8rem 0;}
+
+    #services{background:var(--bg2);}
+    .services-intro{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:end;margin-bottom:5rem;}
+    .services-body{font-size:0.92rem;color:var(--muted);line-height:1.85;}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+    .svc{background:var(--bg2);padding:2.8rem 2.2rem;transition:background 0.3s;}
+    .svc:hover{background:var(--bg3);}
+    .svc-icon{font-size:1.8rem;margin-bottom:1.5rem;}
+    .svc-name{font-family:var(--serif);font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:0.8rem;}
+    .svc-desc{font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;}
+    .svc-price{font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);}
+
+    #barbers{background:var(--bg);}
+    .barbers-head{text-align:center;margin-bottom:5rem;}
+    .barbers-head .rule{margin:1.5rem auto;}
+    .barbers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+    .barber-card{background:var(--bg2);border:1px solid var(--border-soft);overflow:hidden;}
+    .barber-img{height:320px;overflow:hidden;}
+    .barber-img img{width:100%;height:100%;object-fit:cover;filter:brightness(0.85) saturate(0.8);transition:transform 0.6s,filter 0.4s;}
+    .barber-card:hover .barber-img img{transform:scale(1.04);filter:brightness(0.95) saturate(1);}
+    .barber-info{padding:1.8rem 2rem;border-top:1px solid var(--border);}
+    .barber-name{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.3rem;}
+    .barber-title{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);}
+    .barber-spec{font-size:0.8rem;color:var(--muted);margin-top:0.5rem;}
+
+    #gallery{background:var(--bg2);}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:260px 260px;gap:10px;margin-top:3.5rem;}
+    .gi{overflow:hidden;position:relative;}
+    .gi:first-child{grid-row:span 2;}
+    .gi img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s;filter:brightness(0.8);}
+    .gi:hover img{transform:scale(1.05);filter:brightness(0.95);}
+    .gi-overlay{position:absolute;inset:0;background:rgba(201,168,76,0.1);opacity:0;transition:opacity 0.4s;}
+    .gi:hover .gi-overlay{opacity:1;}
+
+    #book{background:var(--bg);display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start;}
+    .book-tagline{font-size:0.92rem;color:var(--muted);line-height:1.85;margin:1.5rem 0 3rem;}
+    .binfo{display:flex;flex-direction:column;gap:1.8rem;}
+    .bi-label{font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;}
+    .bi-val{font-size:0.88rem;color:var(--text);}
+    .bform{display:flex;flex-direction:column;gap:1.1rem;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+    .fg{display:flex;flex-direction:column;gap:0.4rem;}
+    .fl{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);}
+    .fi,.fs,.ft{background:var(--bg3);border:1px solid var(--border-soft);color:var(--text);font-family:var(--sans);font-size:0.87rem;font-weight:300;padding:0.95rem 1.1rem;outline:none;transition:border-color 0.3s;width:100%;}
+    .fi::placeholder{color:var(--subtle);}
+    .fi:focus,.fs:focus,.ft:focus{border-color:rgba(201,168,76,0.5);}
+    .fs option{background:var(--bg);}
+    .ft{resize:vertical;min-height:100px;}
+    .fsub{font-family:var(--sans);font-size:0.75rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;padding:1.05rem 2.8rem;cursor:pointer;transition:background 0.3s;align-self:flex-start;}
+    .fsub:hover{background:var(--gold2);}
+
+    footer{background:var(--bg2);border-top:1px solid var(--border);padding:2.5rem 5rem;display:flex;align-items:center;justify-content:space-between;}
+    .ft-logo{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);}
+    .ft-logo span{color:var(--gold);font-style:italic;}
+    .ft-mid{font-size:0.72rem;color:var(--muted);}
+    .ft-credit{font-size:0.68rem;color:var(--subtle);}
+    .ft-credit a{color:var(--gold);text-decoration:none;}
+
+    .afk-tier-bar{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0d120e;border-top:2px solid #c9a84c;padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;font-family:'DM Sans',sans-serif;}
+    .afk-tier-left{display:flex;align-items:center;gap:0.5rem;}
+    .afk-tier-label{font-size:0.62rem;letter-spacing:0.25em;text-transform:uppercase;color:#7a7260;}
+    .afk-tier-name{font-size:0.82rem;font-weight:500;color:#f0ece4;margin-left:0.3rem;}
+    .afk-tier-sep{width:1px;height:20px;background:rgba(255,255,255,0.1);margin:0 0.8rem;}
+    .afk-tier-price{font-size:0.75rem;font-weight:500;color:#c9a84c;letter-spacing:0.1em;text-transform:uppercase;}
+    .afk-tier-cta{font-size:0.68rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:#0d120e;background:#c9a84c;padding:0.5rem 1.2rem;text-decoration:none;}
+    .afk-tier-cta:hover{background:#e0be6e;}
+    @media(max-width:600px){.afk-tier-sep,.afk-tier-price{display:none;}}
+
+    @keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.85s ease,transform 0.85s ease;}
+    .reveal.visible{opacity:1;transform:none;}
+    .d1{transition-delay:0.12s;}.d2{transition-delay:0.24s;}
+
+    @media(max-width:900px){
+      nav,section,footer{padding-left:1.5rem!important;padding-right:1.5rem!important;}
+      nav.scrolled{padding-left:1.5rem!important;padding-right:1.5rem!important;}
+      .nav-links{display:none;}
+      .hero-content{padding:0 1.5rem;}
+      .hero-stats{display:none;}
+      .services-intro,#book{grid-template-columns:1fr;gap:3rem;}
+      .services-grid,.barbers-grid{grid-template-columns:1fr;}
+      .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+      .gi:first-child{grid-row:span 1;}
+      .form-row{grid-template-columns:1fr;}
+      footer{flex-direction:column;gap:1rem;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#home" class="nav-logo">The Cut <span>Room</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#barbers">Our Barbers</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#book">Book Now</a></li>
+  </ul>
+  <a href="#book" class="nav-cta">Book Appointment</a>
+</nav>
+
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Est. 2018 · St. John's, Antigua</div>
+    <h1 class="hero-title">
+      Sharp Cuts.<br>
+      <em>Clean Lines.</em><br>
+      Always.
+    </h1>
+    <p class="hero-sub">The Cut Room is Antigua's premier barbershop — where every cut is a craft and every client leaves looking their best.</p>
+    <div class="hero-actions">
+      <a href="#book" class="btn-gold">Book Appointment</a>
+      <a href="#services" class="btn-ghost">View Services</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-num">7+</div><div class="hstat-label">Years Open</div></div>
+    <div class="hstat"><div class="hstat-num">3</div><div class="hstat-label">Master Barbers</div></div>
+    <div class="hstat"><div class="hstat-num">5★</div><div class="hstat-label">Rated</div></div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Haircuts</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Beard Trims</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Hot Towel Shaves</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Fades & Tapers</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Kids Cuts</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Antigua & Barbuda</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Haircuts</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Beard Trims</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Hot Towel Shaves</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Fades & Tapers</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Kids Cuts</div>
+    <div class="ticker-item"><span class="ticker-dot">✦</span> Antigua & Barbuda</div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="services-intro reveal">
+    <div>
+      <div class="label">What We Do</div>
+      <h2 class="heading">Our <em>Services</em></h2>
+      <div class="rule"></div>
+    </div>
+    <p class="services-body">Every service is performed by a trained master barber using premium tools and products. Walk-ins welcome, appointments recommended.</p>
+  </div>
+  <div class="services-grid">
+    <div class="svc reveal"><div class="svc-icon">✂️</div><div class="svc-name">Classic Cut</div><p class="svc-desc">Scissors or clippers, shaped and styled to suit your face and preference. Includes wash and finish.</p><div class="svc-price">From $25</div></div>
+    <div class="svc reveal d1"><div class="svc-icon">🪒</div><div class="svc-name">Fade & Taper</div><p class="svc-desc">Low, mid, or high fade with crisp lines. Our most requested service — precision is our standard.</p><div class="svc-price">From $30</div></div>
+    <div class="svc reveal d2"><div class="svc-icon">🧔</div><div class="svc-name">Beard Sculpt</div><p class="svc-desc">Shape, trim, and line your beard to perfection. Hot towel finish included for a clean, sharp look.</p><div class="svc-price">From $20</div></div>
+    <div class="svc reveal"><div class="svc-icon">💈</div><div class="svc-name">Hot Towel Shave</div><p class="svc-desc">The full traditional experience. Hot towel, straight razor, and premium shaving cream. A ritual.</p><div class="svc-price">From $35</div></div>
+    <div class="svc reveal d1"><div class="svc-icon">👦</div><div class="svc-name">Kids Cut</div><p class="svc-desc">For the young ones. Patient barbers, fun atmosphere, and a clean cut every time.</p><div class="svc-price">From $18</div></div>
+    <div class="svc reveal d2"><div class="svc-icon">👑</div><div class="svc-name">The Full Package</div><p class="svc-desc">Cut + beard sculpt + hot towel shave + styling. The complete Cut Room experience.</p><div class="svc-price">From $65</div></div>
+  </div>
+</section>
+
+<section id="barbers">
+  <div class="barbers-head reveal">
+    <div class="label">The Team</div>
+    <h2 class="heading">Our <em>Barbers</em></h2>
+    <div class="rule"></div>
+  </div>
+  <div class="barbers-grid">
+    <div class="barber-card reveal">
+      <div class="barber-img"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&auto=format&fit=crop" alt="Barber"/></div>
+      <div class="barber-info"><div class="barber-name">Marcus Cole</div><div class="barber-title">Master Barber · Owner</div><div class="barber-spec">Speciality: Fades, skin tapers, beard sculpting</div></div>
+    </div>
+    <div class="barber-card reveal d1">
+      <div class="barber-img"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&auto=format&fit=crop" alt="Barber"/></div>
+      <div class="barber-info"><div class="barber-name">Devon Francis</div><div class="barber-title">Senior Barber</div><div class="barber-spec">Speciality: Classic cuts, hot towel shaves, designs</div></div>
+    </div>
+    <div class="barber-card reveal d2">
+      <div class="barber-img"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&auto=format&fit=crop" alt="Barber"/></div>
+      <div class="barber-info"><div class="barber-name">Jamal Thomas</div><div class="barber-title">Barber</div><div class="barber-spec">Speciality: Kids cuts, natural hair, loc maintenance</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="reveal">
+    <div class="label">Our Work</div>
+    <h2 class="heading">Fresh <em>Cuts</em></h2>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gi"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&auto=format&fit=crop" alt="Cut"/><div class="gi-overlay"></div></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&auto=format&fit=crop" alt="Cut"/><div class="gi-overlay"></div></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1596728325488-58c87691e9af?w=800&auto=format&fit=crop" alt="Cut"/><div class="gi-overlay"></div></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&auto=format&fit=crop" alt="Shop"/><div class="gi-overlay"></div></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&auto=format&fit=crop" alt="Barber"/><div class="gi-overlay"></div></div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="reveal">
+    <div class="label">Book Now</div>
+    <h2 class="heading">Reserve Your <em>Chair</em></h2>
+    <div class="rule"></div>
+    <p class="book-tagline">Walk-ins always welcome, but booking ahead guarantees your spot with your preferred barber.</p>
+    <div class="binfo">
+      <div><div class="bi-label">Address</div><div class="bi-val">14 Market Street, St. John's<br>Antigua and Barbuda</div></div>
+      <div><div class="bi-label">Hours</div><div class="bi-val">Mon – Sat · 8:00 AM – 7:00 PM<br>Sunday · 10:00 AM – 4:00 PM</div></div>
+      <div><div class="bi-label">Phone / WhatsApp</div><div class="bi-val">+1 (268) 555-0300</div></div>
+    </div>
+  </div>
+  <div class="reveal d1">
+    <div class="bform">
+      <div class="form-row">
+        <div class="fg"><label class="fl">Your Name</label><input type="text" class="fi" placeholder="John Smith"/></div>
+        <div class="fg"><label class="fl">Phone / WhatsApp</label><input type="tel" class="fi" placeholder="+1 (268) 000-0000"/></div>
+      </div>
+      <div class="fg"><label class="fl">Preferred Barber</label>
+        <select class="fs"><option value="">No preference</option><option>Marcus Cole</option><option>Devon Francis</option><option>Jamal Thomas</option></select>
+      </div>
+      <div class="fg"><label class="fl">Service</label>
+        <select class="fs"><option value="">Select a service</option><option>Classic Cut — from $25</option><option>Fade & Taper — from $30</option><option>Beard Sculpt — from $20</option><option>Hot Towel Shave — from $35</option><option>Kids Cut — from $18</option><option>The Full Package — from $65</option></select>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label class="fl">Date</label><input type="date" class="fi"/></div>
+        <div class="fg"><label class="fl">Time</label><select class="fs"><option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option></select></div>
+      </div>
+      <button class="fsub">Book Appointment →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-logo">The Cut <span>Room</span></div>
+  <div class="ft-mid">© 2025 The Cut Room · St. John's, Antigua</div>
+  <div class="ft-credit">Website by <a href="https://afkco.netlify.app" target="_blank">AFK Co.</a></div>
+</footer>
+
+<div class="afk-tier-bar">
+  <div class="afk-tier-left">
+    <span class="afk-tier-label">AFK Co. Demo —</span>
+    <span class="afk-tier-name">Business Site</span>
+    <div class="afk-tier-sep"></div>
+    <span class="afk-tier-price">From $300</span>
+  </div>
+  <a href="https://afkco.netlify.app/#contact" target="_blank" class="afk-tier-cta">Get This Package →</a>
+</div>
+
+<script>
+  const nav=document.getElementById('navbar');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>70));
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
